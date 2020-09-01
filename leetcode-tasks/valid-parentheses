@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> Stack;
+        if (s.size() == 0) return true;
+        Stack.push(s[0]);
+        for (int i = 1; i < s.size(); i++){
+            if (Stack.empty()) 
+                Stack.push(s[i]);
+            else
+                if (abs(Stack.top()-s[i]) <= 2 && abs(Stack.top()-s[i])>0) 
+                    Stack.pop();
+                else
+                    Stack.push(s[i]);
+        }
+        return Stack.empty();
+    }
+};
