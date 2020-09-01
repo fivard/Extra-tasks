@@ -1,0 +1,31 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if (numRows == 1) 
+            return s;
+        string output = "";
+        int tempNumRows = numRows;
+        while(numRows > 0){
+            int i = -numRows + tempNumRows+1;
+            int start = i;
+
+            if (i == 1 || i == tempNumRows)
+                while (i <= s.size()){
+                    output += s[i-1];
+                    i += 2*(tempNumRows - 1);
+                }
+            else
+                while(i <= s.size()){
+                    output+=s[i-1];
+                    i += 2*(tempNumRows-start);
+                    if (i <= s.size()){
+                        output+=s[i-1];
+                        i += 2*(start-1);
+                    }
+                }
+
+            numRows--;
+        }
+        return output;
+    }
+};
