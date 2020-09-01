@@ -1,0 +1,67 @@
+class Solution {
+public:
+    void generateNewComb(string digits, const vector<vector<string>> &alphabet, vector<string> &answer, int dividedBy){
+        if (digits.size() == 0)
+            return;
+        
+        writeOneMoreSymbol(digits, alphabet, answer, dividedBy);
+                
+        dividedBy *= alphabet[digits[0]-'0'].size();
+        
+        cout << digits.substr(1) << '\n';
+        generateNewComb(digits.substr(1), alphabet, answer, dividedBy);
+    }
+    
+    void writeOneMoreSymbol(string digits, const vector<vector<string>> &alphabet, vector<string> &answer, int dividedBy){
+        int blockSizeForACifr = answer.size()/dividedBy;
+        int blockSizeForALetter = blockSizeForACifr/alphabet[digits[0]-'0'].size();
+        int numberOfALetter;
+        
+        for (int i = 0; i < answer.size(); i += blockSizeForACifr){
+            numberOfALetter = 0;
+            for (int j = i; j < i + blockSizeForACifr; j += blockSizeForALetter){
+                for (int k = j; k < j + blockSizeForALetter; k++){
+                    answer[k] += alphabet[digits[0]-'0'][numberOfALetter];
+                    outVector(answer);
+                }
+                numberOfALetter++;
+            }
+        }
+    }
+    
+    vector<string> letterCombinations(string digits) {
+        vector<string> temp;
+        if (digits.size() == 0)
+            return temp;
+        vector<vector<string>> alphabet = {
+            {},
+            {},
+            {"a","b","c"},
+            {"d","e","f"},
+            {"g","h","i"},
+            {"j","k","l"},
+            {"m","n","o"},
+            {"p","q","r","s"},
+            {"t","u","v"},
+            {"w","x","y","z"}
+        };
+        int countOfComb = 1;
+        
+        for (int i = 0; i < digits.size(); i++)
+            if (digits[i] == '7' || digits[i] == '9')
+                countOfComb *= 4;
+            else
+                countOfComb *= 3;
+        
+        vector<string> answer(countOfComb, "");
+        
+        generateNewComb(digits, alphabet, answer, 1);
+        return answer;
+    }
+    
+    void outVector(vector<string> vec){
+        for (auto i : vec)
+            cout << i << ' ';
+        cout << endl;
+    }
+};
