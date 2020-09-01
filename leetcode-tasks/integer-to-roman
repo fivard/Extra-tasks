@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int lenOfInt(int num){
+        int len = 0;
+        while(num > 0){
+            len++;
+            num/=10;
+        }
+        return len;
+    }
+    
+    int pow(int num, int power){
+        if (power == 0) return 1;
+        int temp = num;
+        for(int i = 0; i < power-1; i++)
+            num *= temp;
+        return num;
+    }
+    
+    string intToRoman(int num) {
+        string roman;
+        string one[4]={"I", "X", "C", "M"};
+        string five[3]={"V", "L", "D"};
+        int len = lenOfInt(num);
+        while(num > 0){
+            int cifr = num/pow(10, len-1);
+            
+            if (cifr <= 3)
+                for (int i = 0; i < cifr;i++)
+                    roman += one[len-1];
+            
+            if (cifr == 4)
+                roman += one[len-1] + five[len-1];
+            
+            if (cifr == 5)
+                roman += five[len-1];
+            
+            if (cifr > 5 && cifr < 9){
+                roman += five[len-1];
+                for (int i = 0; i < cifr-5;i++)
+                    roman += one[len-1];
+            }
+            if (cifr == 9)
+                roman += one[len-1] + one[len];
+            
+            num %= pow(10, len-1);
+            len--;
+        }
+        return roman;
+    }
+};
